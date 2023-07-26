@@ -4,7 +4,7 @@
     <div class="container-fluid  bg-light" style="height: 100%;">
         <div class="row">
             <div class="d-flex">
-                <h5>{{ title }} <span style="color: #afafaf;">({{ num }})</span></h5>
+                <h5>{{ title }} <span style="color: #afafaf;">({{ tasks.length }})</span></h5>
             </div>
             <div class="task-list">
                 <div v-for="task in tasks" :key="task.id">

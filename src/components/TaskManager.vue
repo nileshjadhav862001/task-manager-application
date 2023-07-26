@@ -1,10 +1,11 @@
 <template>
+    
 <div class="app">
-    <Navbar @show-add-task-form="showAddTaskForm" />
+    <Navbar @show-add-task-form="showAddTaskForm" @delet-all-task="onDeletAllTask" />
     <div class="task-manager">
-        <TaskMain title="Pending" :tasks="pendingTasks" :num="pendingTaskCount" @move-task-inprogress="moveTaskInprogress" />
-        <TaskMain title="In Progress" :tasks="inProgressTasks" :num="inprogressTaskCount" @move-task-done="moveTaskDone" />
-        <TaskMain title="Done" :tasks="doneTasks" :num="doneTaskCount" />
+        <TaskMain title="Pending" :tasks="pendingTasks"  @move-task-inprogress="moveTaskInprogress" />
+        <TaskMain title="In Progress" :tasks="inProgressTasks"  @move-task-done="moveTaskDone" />
+        <TaskMain title="Done" :tasks="doneTasks" />
         <AddTaskForm1 v-if="showAddTask" @add-task="addTask" @hide-add-task-modal="hideAddTaskModal" />
     </div>
 </div>
@@ -27,16 +28,31 @@ export default {
             tasksArray: [],
             showAddTask: false,
             selectedTask: null,
-            pendingTaskCount: 0,
-            inprogressTaskCount: 0,
-            doneTaskCount: 0,
+            // pendingTaskCount: 0,
+            // inprogressTaskCount: 0,
+            // doneTaskCount: 0,
             todoTasks: [],
+        }
+    },
+    mounted() {
+        const storedTasks = localStorage.getItem('tasksArray');
+        if (storedTasks) {
+            this.tasksArray = JSON.parse(storedTasks);
+        }
+    },
+    watch: {
+        tasksArray: {
+            handler: function (newArray) {
+                localStorage.setItem('tasksArray', JSON.stringify(newArray));
+            },
+            deep: true,
         }
     },
     methods: {
         addTask(task) {
             this.tasksArray.push(task);
-            this.pendingTaskCount++
+            // this.pendingTaskCount++
+            localStorage.setItem('tasksArray', JSON.stringify(this.tasksArray));
         },
         showAddTaskForm() {
             this.showAddTask = true;
@@ -54,18 +70,28 @@ export default {
         },
         AddSubTask(subtask) {
             this.tasksArray.subtasks.push(subtask)
+            // localStorage.setItem("tasksArray.subtasks", JSON.stringify(this.tasksArray.subtasks))
+            localStorage.setItem('tasksArray', JSON.stringify(this.tasksArray));
 
         },
         moveTaskInprogress(task) {
             task.status = 'inProgress'
-            this.inprogressTaskCount++
-            this.pendingTaskCount--
+            // this.inprogressTaskCount++
+            // this.pendingTaskCount--
+            localStorage.setItem('tasksArray', JSON.stringify(this.tasksArray));
         },
         moveTaskDone(task) {
             task.status = 'done'
-            this.doneTaskCount++
-            this.inprogressTaskCount--
+            // this.doneTaskCount++
+            // this.inprogressTaskCount--
+            localStorage.setItem('tasksArray', JSON.stringify(this.tasksArray));
         },
+        onDeletAllTask(){
+            this.tasksArray = []
+            this.pendingTaskCount = 0
+            this.inprogressTaskCount = 0
+            this.doneTaskCount = 0
+        }
 
     },
     computed: {

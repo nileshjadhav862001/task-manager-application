@@ -6,6 +6,7 @@
             <div class="task-header">
                 <h6>{{ task.name }}</h6>
                 <i @click="expand" class="bi bi-chevron-down"></i>
+                <!-- <i v-if="expantion" class="bi bi-chevron-up"></i> -->
             </div>
             <div class="combine">
                 <div class="one">
