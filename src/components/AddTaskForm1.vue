@@ -1,3 +1,4 @@
+<!-- store completed -->
 <template>
 <div>
     <div>
@@ -28,7 +29,7 @@
                             {{ developer }}
                         </option>
                     </select>
-                </div>
+                </div> 
                 <div class="form-group">
                     <label data-error="wrong" data-success="right" for="form34">Name Task</label>
                     <input v-model="newTask.name" type="text" class="form-control" id="task" placeholder="Enter task" />
@@ -55,53 +56,51 @@
 
     
 <script>
+import {  mapActions, mapState } from 'pinia'
+import { useCounterStore } from '../store/index.js';
+
 export default {
     components: {},
     data() {
         return {
-            showPopup: false,
-            newTask: {
-                client: '',
-                milestone: '',
-                developer: '',
-                name: '',
-                description: '',
-            },
+            // showPopup: false,
+            // newTask: {
+            //     client: '',
+            //     milestone: '',
+            //     developer: '',
+            //     name: '',
+            //     description: '',
+            // },
         };
     },
     methods: {
-        addTask() {
-            const task = {
-                ...this.newTask,
-                status: 'pending',
-                subtasks: [],
-                completedCount: 0
-            };
-            this.$emit('add-task', task);
-            this.hideAddTaskModal();
-        },
+        ...mapActions(useCounterStore, ['hideAddTaskModal','addTask']),
 
-        hideAddTaskModal() {
-            this.$emit('hide-add-task-modal');
-            this.newTask = {
-                client: '',
-                milestone: '',
-                developer: '',
-                name: '',
-                description: '',
-            };
-        },
+        // addTask() {
+        //     const task = {
+        //         ...this.newTask,
+        //         status: 'pending',
+        //         subtasks: [],
+        //         completedCount: 0
+        //     };
+        //     this.$emit('add-task', task);
+        //     this.hideAddTaskModal();
+        // },
+
+        // hideAddTaskModal() {
+        //     this.$emit('hide-add-task-modal');
+        //     this.newTask = {
+        //         client: '',
+        //         milestone: '',
+        //         developer: '',
+        //         name: '',
+        //         description: '',
+        //     };
+        // },
     },
     computed: {
-        clients() {
-            return ['Client1', 'Client2', 'Client3'];
-        },
-        milestones() {
-            return ['MVP', 'SEO Management', '19 Aug MOM'];
-        },
-        developers() {
-            return ['JS', 'BB', 'BM', 'RS'];
-        },
+        ...mapState(useCounterStore, ['count','showPopup','clients','milestones','developers','newTask']),
+
     }
 };
 </script>

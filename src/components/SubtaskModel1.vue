@@ -1,56 +1,60 @@
 <template>
-<div>
-    <div id="app">
-        <div class="card">
-            <div class="card-body">
-                <ul class="nav nav-tabs" role="tablist">
-                    <li class="nav-item">
-                        <a class="nav-link" :class="{ active: activeTab === 'subtask' }" @click="activeTab = 'subtask'">Subtask</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" :class="{ active: activeTab === 'info' }" @click="activeTab = 'info'">Info</a>
-                    </li>
-                </ul>
-                <div class="tab-content mt-3">
+    <div>
+        <div id="app">
+            <div class="card">
+                <div class="card-body">
+                    <ul class="nav nav-tabs" role="tablist">
+                        <li class="nav-item">
+                            <a class="nav-link" :class="{ active: activeTab === 'subtask' }" @click="activeTab = 'subtask'">Subtask</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" :class="{ active: activeTab === 'info' }" @click="activeTab = 'info'">Info</a>
+                        </li>
+                    </ul>
+                    <div class="tab-content mt-3">
 
-                    <div class="tab-pane" :class="{ active: activeTab === 'subtask' }">
-                        <i class="bi bi-plus-lg"></i>
-                        <input type="text" v-model="newSubtask" @keydown.enter="addSubtask" placeholder="Add Subtask & enter">
+                        <div class="tab-pane" :class="{ active: activeTab === 'subtask' }">
+                            <i class="bi bi-plus-lg"></i>
+                            <input type="text" v-model="newSubtask" @keydown.enter="addSubtask"
+                                placeholder="Add Subtask & enter">
 
-                        <div v-for="subtask in task.subtasks" :key="subtask.name">
-                            <input type="checkbox" v-model="subtask.completed" @change="updateCompleteCount(subtask)">
-                            <span> &nbsp;{{subtask.name}} &nbsp; </span>
-                            <i class="bi bi-trash-fill" style="cursor: pointer;" @click="popDeleteSubtask(subtask)"></i>
+                            <div v-for="subtask in task.subtasks" :key="subtask.name">
+                                <input type="checkbox" v-model="subtask.completed" @change="updateCompleteCount(subtask)">
+                                <span> &nbsp;{{ subtask.name }} &nbsp; </span>
+                                <i class="bi bi-trash-fill" style="cursor: pointer;" @click="popDeleteSubtask(subtask)"></i>
+
+                            </div>
+                        </div>
+                        <div class="tab-pane" :class="{ active: activeTab === 'info' }">
+                            {{ task.description }}
 
                         </div>
-                    </div>
-                    <div class="tab-pane" :class="{ active: activeTab === 'info' }">
-                        {{ task.description }}
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-    <div v-if="deletepop" class="deletepop">
+        <div v-if="deletepop" class="deletepop">
 
-        <div @click="deletepop1" class="pop">
-            <div class="warning">
-                <i class="bi bi-exclamation-triangle-fill"></i>
-            </div>
-            <div class="msg">
-                <span>Sure want to delete ?</span>
-            </div>
-            <div class="button">
-                <button @click="deleteSubtask" class="btn">YES</button>
+            <div @click="deletepop1" class="pop">
+                <div class="warning">
+                    <i class="bi bi-exclamation-triangle-fill"></i>
+                </div>
+                <div class="msg">
+                    <span>Sure want to delete ?</span>
+                </div>
+                <div class="button">
+                    <button @click="deleteSubtask" class="btn">YES</button>
+                    <!-- sele : {{ selectedTask }} -->
+                </div>
             </div>
         </div>
     </div>
-</div>
 </template>
 
 <script>
+import { mapState, mapActions } from "pinia";
+import { useCounterStore } from '../store/index.js';
 export default {
-
     props: {
         task: {
             type: Object,
@@ -59,12 +63,12 @@ export default {
     },
     data() {
         return {
-            selectedTask: null,
+            // selectedTask: null,
             newSubtask: '',
             activeTab: 'subtask',
             localTask: {},
-            deletepop: false,
-            count: 0,
+            // deletepop: false,
+            // count: 0,
         }
     },
 
@@ -76,38 +80,48 @@ export default {
     },
 
     methods: {
+        // methods
+        ...mapActions(useCounterStore, ['showAddTaskForm','updateCompleteCount','popDeleteSubtask','deleteSubtask']),
+
         addSubtask() {
-            if (this.newSubtask.trim() !== '') {
+            // if (this.newSubtask.trim() !== '') {
                 const subtask = {
                     name: this.newSubtask.trim(),
                     completed: false,
                 };
                 this.localTask.subtasks.push(subtask);
                 this.newSubtask = '';
-            }
+            // }
         },
-        popDeleteSubtask(subtask) {
-            this.selectedTask = subtask;
-            this.deletepop = true;
-        },
+        // popDeleteSubtask(subtask) {
+        //     this.selectedTask = subtask;
+        //     this.deletepop = true;
+        // },
         deletepop1() {
             this.deletepop = false
         },
-        updateCompleteCount(subtask) {
-            if (subtask.completed === true) {
-                this.count++;
-            } else {
-                this.count--;
-            }
-            this.$emit('update-complete-count', this.count)
-        },
-        deleteSubtask() {
-            const index = this.localTask.subtasks.indexOf(this.selectedTask);
-            if (index !== -1) {
-                this.localTask.subtasks.splice(index, 1);
-                this.selectedTask = null;
-            }
-        }
+        // deleteSubtask() {
+        //     const index = this.localTask.subtasks.indexOf(this.selectedTask);
+        //     if (index !== -1) {
+        //         this.localTask.subtasks.splice(index, 1);
+        //         this.selectedTask = null;
+        //     }
+        // },
+        // updateCompleteCount(subtask) {
+        //     if (subtask.completed === true) {
+        //         this.count++;
+        //     } else {
+        //         this.count--;
+        //     }
+        //     this.$emit('update-complete-count', this.count)
+        // },
+    },
+    computed: {
+        // computed + data 
+        ...mapState(useCounterStore, ['completedCount','deletepop']),
+
+
+
     }
 
 }
@@ -167,5 +181,4 @@ input[type=text] {
     border-bottom: 1px solid #969494;
     border-radius: .2em .2em 0 0;
     padding: .4em;
-}
-</style>
+}</style>

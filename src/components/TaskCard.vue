@@ -1,6 +1,6 @@
 <template>
 <div class="task-card shadow p-3 bg-body-tertiary rounded">
-    <div>
+    <div> 
         <div>
 
             <div class="task-header">
@@ -10,13 +10,14 @@
             </div>
             <div class="combine">
                 <div class="one">
-
+ 
                     <div class="task-client">
                         <span>{{ task.client }}</span>
                     </div>
                     <div>
                         <i class="bi bi-check2-square"></i>
                         <span class="completed-count">{{ completedCount }}/{{ task.subtasks.length }}</span>
+                        <!-- count1 : {{ count1 }} -->
                     </div>
                 </div>
                 <div class="two">
@@ -34,7 +35,7 @@
                 </div>
             </div>
             <div v-if="expantion">
-                <SubtaskModel1 :task="task" @update-complete-count="handleUpdateCounter" />
+                <SubtaskModel1 :task="task" />
             </div>
         </div>
     </div>
@@ -42,6 +43,8 @@
 </template>
 
 <script>
+import { mapActions, mapState } from 'pinia'
+import { useCounterStore } from '../store/index.js'
 import SubtaskModel1 from './SubtaskModel1.vue'
 export default {
     components: {
@@ -57,38 +60,41 @@ export default {
         return {
             expantion: false,
             newSubtask: "",
-            // subtasks: [],
-            selectedTask: null,
+            subtasks: [],
+            // selectedTask: null,
             activeTab: 'subtask',
             taskDescription: 'Task description goes here',
-            completedCount: 0
+            // completedCount: 0
 
         }
     },
     methods: {
+        ...mapActions(useCounterStore,['moveTaskInProgress','moveTaskDone',]),
         expand() {
             this.expantion = !this.expantion
         },
 
-        moveTaskInProgress(task) {
-            this.$emit("move-task-inprogress", task);
-        },
-        moveTaskDone(task) {
-            this.$emit("move-task-done", task);
-        },
-        handleUpdateCounter(count) {
-            this.completedCount = Math.abs(count);
-        }
+        // moveTaskInProgress(task) {
+        //     this.$emit("move-task-inprogress", task);
+        // },
+        // moveTaskDone(task) {
+        //     this.$emit("move-task-done", task);
+        // },
+        // handleUpdateCounter(count1) {
+        //     this.completedCount = Math.abs(count1);
+        // }
 
     },
-    computed: {}
+    computed: {
+        ...mapState(useCounterStore,['completedCount'])
+    }
 }
 </script>
 
 <style scoped>
 .task-card {
     /* height: 20px; */
-    background-color: #ffffff;
+    background-color: #efd8f5;
     padding: 10px;
     margin-bottom: 10px;
 }
