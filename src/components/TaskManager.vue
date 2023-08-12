@@ -94,7 +94,7 @@ export default {
 
     },
     computed: {
-        ...mapState(useCounterStore, ['count', 'tasksArray', 'showAddTask', 'pendingTasks', 'inProgressTasks', 'doneTasks']),
+        ...mapState(useCounterStore, ['tasksArray', 'showAddTask', 'pendingTasks', 'inProgressTasks', 'doneTasks']),
         // pendingTasks() {
         //     return this.tasksArray.filter((task) => task.status === 'pending');
         // },

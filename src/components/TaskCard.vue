@@ -1,45 +1,47 @@
 <template>
-<div class="task-card shadow p-3 bg-body-tertiary rounded">
-    <div> 
+    <div class="task-card shadow p-3 bg-body-tertiary rounded">
         <div>
+            <div>
 
-            <div class="task-header">
-                <h6>{{ task.name }}</h6>
-                <i @click="expand" class="bi bi-chevron-down"></i>
-                <!-- <i v-if="expantion" class="bi bi-chevron-up"></i> -->
-            </div>
-            <div class="combine">
-                <div class="one">
- 
-                    <div class="task-client">
-                        <span>{{ task.client }}</span>
+                <div class="task-header">
+                    <h6>{{ task.name }}</h6>
+                    <i @click="expand" class="bi bi-chevron-down"></i>
+                    <!-- <i v-if="expantion" class="bi bi-chevron-up"></i> -->
+                </div>
+                <div class="combine">
+                    <div class="one">
+
+                        <div class="task-client">
+                            <span>{{ task.client }}</span>
+                        </div>
+                        <div>
+                            <i class="bi bi-check2-square"></i>
+                            <span class="completed-count">{{ completedCount }}/{{ task.subtasks.length }}</span>
+                            <!-- count1 : {{ count1 }} -->
+                        </div>
                     </div>
-                    <div>
-                        <i class="bi bi-check2-square"></i>
-                        <span class="completed-count">{{ completedCount }}/{{ task.subtasks.length }}</span>
-                        <!-- count1 : {{ count1 }} -->
+                    <div class="two">
+
+                        <div class="task-footer">
+                            <i v-if="task.status == 'pending'" @click="moveTaskInProgress(task)"
+                                style="color: rgb(6, 156, 6);" class="bi bi-play-fill"></i>
+                            <i v-if="task.status == 'inProgress'" @click="moveTaskDone(task)" style="color: red;"
+                                class="bi bi-stop-fill"></i>
+                        </div>
+                        <div class="task-developer">
+                            <span>{{ task.developer }}</span>
+                        </div>
+                        <div>
+                            <i class="bi bi-three-dots-vertical"></i>
+                        </div>
                     </div>
                 </div>
-                <div class="two">
-
-                    <div class="task-footer">
-                        <i v-if="task.status == 'pending'" @click="moveTaskInProgress(task)" style="color: rgb(6, 156, 6);" class="bi bi-play-fill"></i>
-                        <i v-if="task.status == 'inProgress'" @click="moveTaskDone(task)" style="color: red;" class="bi bi-stop-fill"></i>
-                    </div>
-                    <div class="task-developer">
-                        <span>{{ task.developer }}</span>
-                    </div>
-                    <div>
-                        <i class="bi bi-three-dots-vertical"></i>
-                    </div>
+                <div v-if="expantion">
+                    <SubtaskModel1 :task="task" />
                 </div>
-            </div>
-            <div v-if="expantion">
-                <SubtaskModel1 :task="task" />
             </div>
         </div>
     </div>
-</div>
 </template>
 
 <script>
@@ -60,16 +62,15 @@ export default {
         return {
             expantion: false,
             newSubtask: "",
-            subtasks: [],
+            // subtasks: [],
             // selectedTask: null,
             activeTab: 'subtask',
-            taskDescription: 'Task description goes here',
             // completedCount: 0
 
         }
     },
     methods: {
-        ...mapActions(useCounterStore,['moveTaskInProgress','moveTaskDone',]),
+        ...mapActions(useCounterStore, ['moveTaskInProgress', 'moveTaskDone',]),
         expand() {
             this.expantion = !this.expantion
         },
@@ -86,7 +87,7 @@ export default {
 
     },
     computed: {
-        ...mapState(useCounterStore,['completedCount'])
+        ...mapState(useCounterStore, ['completedCount'])
     }
 }
 </script>

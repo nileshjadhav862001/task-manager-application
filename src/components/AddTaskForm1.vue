@@ -99,7 +99,7 @@ export default {
         // },
     },
     computed: {
-        ...mapState(useCounterStore, ['count','showPopup','clients','milestones','developers','newTask']),
+        ...mapState(useCounterStore, ['showPopup','newTask','clients','milestones','developers',]),
 
     }
 };

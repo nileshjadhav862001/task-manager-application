@@ -93,10 +93,10 @@ export default {
                 this.newSubtask = '';
             // }
         },
-        // popDeleteSubtask(subtask) {
-        //     this.selectedTask = subtask;
-        //     this.deletepop = true;
-        // },
+        popDeleteSubtask(subtask) {
+            this.selectedTask = subtask;
+            this.deletepop = true;
+        },
         deletepop1() {
             this.deletepop = false
         },
@@ -118,6 +118,7 @@ export default {
     },
     computed: {
         // computed + data 
+        // store : useCounterStore(),
         ...mapState(useCounterStore, ['completedCount','deletepop']),
 
 
