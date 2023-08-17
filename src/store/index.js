@@ -22,7 +22,6 @@ export const useCounterStore = defineStore('counter', {
     selectedTask: null,
     expantion: false,
     newSubtask: '',
-    // sampleArray : []
   }),
 
   actions: {
@@ -64,7 +63,8 @@ export const useCounterStore = defineStore('counter', {
         ...this.newTask,
         status: 'pending',
         subtasks: [],
-        completedCount: 0
+        completedCount: 0,
+        id : Date.now()
       };
       this.tasksArray.push(task)
       this.hideAddTaskModal();
@@ -82,17 +82,20 @@ export const useCounterStore = defineStore('counter', {
     // ---------------------------------------------------------------------
 
 
-    // addSubtask() {
-    //   // if (this.newSubtask.trim() !== '') {
+    // addSubtask(task, newSubtask) {
     //   const subtask = {
-    //     name: this.newSubtask,
+    //     name: newSubtask,
     //     completed: false,
     //   };
-    //   // this.tasksArray.subtasks.push(subtask);
-    //   this.sampleArray.push(subtask)
-    //   this.newSubtask = '';
-    //   // }
+    //   task.subtasks.push(subtask);
     // },
+    addSubtaskv1(task, newSubtask) {
+      const subtask = {
+        name: newSubtask,
+        completed: false,
+      };
+      task.subtasks.push(subtask);
+    },
     // popDeleteSubtask(subtask) {
     //   this.selectedTask = subtask;
     //   this.deletepop = true;

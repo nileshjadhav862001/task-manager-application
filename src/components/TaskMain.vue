@@ -7,7 +7,7 @@
                     <h5>{{ title }} <span style="color: #afafaf;">({{ tasks.length }})</span></h5>
                 </div>
                 <div class="task-list">
-                    <div v-for="task in tasks" :key="task.id">
+                    <div v-for="(task, index) in tasks" :key="index">
                         <task-card :task="task" />
                     </div>
                 </div>

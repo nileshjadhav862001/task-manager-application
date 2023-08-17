@@ -95,7 +95,7 @@ export default {
 <style scoped>
 .task-card {
     /* height: 20px; */
-    background-color: #efd8f5;
+    background-color: #ffffff;
     padding: 10px;
     margin-bottom: 10px;
 }

@@ -15,7 +15,7 @@
 
                         <div class="tab-pane" :class="{ active: activeTab === 'subtask' }">
                             <i class="bi bi-plus-lg"></i>
-                            <input type="text" v-model="newSubtask" @keydown.enter="addSubtask"
+                            <input type="text" v-model="newSubtask" @keydown.enter="handleAddSubtask"
                                 placeholder="Add Subtask & enter">
 
                             <div v-for="subtask in task.subtasks" :key="subtask.name">
@@ -44,7 +44,7 @@
                 </div>
                 <div class="button">
                     <button @click="deleteSubtask" class="btn">YES</button>
-                    <!-- sele : {{ selectedTask }} -->
+                    sele : {{ selectedTask }}
                 </div>
             </div>
         </div>
@@ -63,35 +63,38 @@ export default {
     },
     data() {
         return {
-            // selectedTask: null,
+            selectedTask: null,
             newSubtask: '',
             activeTab: 'subtask',
             localTask: {},
-            // deletepop: false,
+            deletepop: false,
             // count: 0,
         }
     },
 
-    mounted() {
-        this.localTask = {
-            ...this.task
-        };
+    // mounted() {
+    //     this.localTask = {
+    //         ...this.task
+    //     };
 
-    },
+    // },
 
     methods: {
         // methods
-        ...mapActions(useCounterStore, ['showAddTaskForm','updateCompleteCount','popDeleteSubtask','deleteSubtask']),
+        ...mapActions(useCounterStore, ['showAddTaskForm','updateCompleteCount','addSubtaskv1']),
 
-        addSubtask() {
-            // if (this.newSubtask.trim() !== '') {
-                const subtask = {
-                    name: this.newSubtask.trim(),
-                    completed: false,
-                };
-                this.localTask.subtasks.push(subtask);
-                this.newSubtask = '';
-            // }
+        // addSubtask() {
+        //         const subtask = {
+        //             name: this.newSubtask,
+        //             completed: false,
+        //         };
+        //         this.localTask.subtasks.push(subtask);
+        //         this.newSubtask = '';
+
+        // },
+        handleAddSubtask(){
+            this.addSubtaskv1(this.task, this.newSubtask)
+            this.newSubtask = ''
         },
         popDeleteSubtask(subtask) {
             this.selectedTask = subtask;
@@ -100,13 +103,13 @@ export default {
         deletepop1() {
             this.deletepop = false
         },
-        // deleteSubtask() {
-        //     const index = this.localTask.subtasks.indexOf(this.selectedTask);
-        //     if (index !== -1) {
-        //         this.localTask.subtasks.splice(index, 1);
-        //         this.selectedTask = null;
-        //     }
-        // },
+        deleteSubtask() {
+            const index = this.localTask.subtasks.indexOf(this.selectedTask);
+            // if (index !== -1) {
+                this.localTask.subtasks.splice(index, 1);
+                this.selectedTask = null;
+            // }
+        },
         // updateCompleteCount(subtask) {
         //     if (subtask.completed === true) {
         //         this.count++;
@@ -118,7 +121,6 @@ export default {
     },
     computed: {
         // computed + data 
-        // store : useCounterStore(),
         ...mapState(useCounterStore, ['completedCount','deletepop']),
 
 
