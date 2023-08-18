@@ -7,7 +7,6 @@
             <TaskMain title="In Progress" :tasks="inProgressTasks" />
             <TaskMain title="Done" :tasks="doneTasks" />
             <AddTaskForm1 v-if="showAddTask" />
-            {{ tasksArray }}
         </div>
     </div>
 </template>
@@ -30,11 +29,11 @@ export default {
         return {
             // tasksArray: [],
             // showAddTask: false,
-            selectedTask: null,
+            // selectedTask: null,
             // pendingTaskCount: 0,
             // inprogressTaskCount: 0,
             // doneTaskCount: 0,
-            todoTasks: [],
+            // todoTasks: [],
         }
     },
     mounted() {

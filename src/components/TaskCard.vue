@@ -37,7 +37,7 @@
                     </div>
                 </div>
                 <div v-if="expantion">
-                    <SubtaskModel1 :task="task" />
+                    <SubtaskModel1 :task="task" :index="index"/>
                 </div>
             </div>
         </div>
@@ -57,6 +57,10 @@ export default {
             type: Object,
             required: true,
         },
+        index: {
+            type:Number,
+            required: true,
+        }
     },
     data() {
         return {

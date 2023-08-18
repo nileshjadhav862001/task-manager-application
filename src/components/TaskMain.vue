@@ -8,7 +8,8 @@
                 </div>
                 <div class="task-list">
                     <div v-for="(task, index) in tasks" :key="index">
-                        <task-card :task="task" />
+                        <task-card :task="task" :index="index"/>
+                        <!-- index : {{ index }} -->
                     </div>
                 </div>
             </div>

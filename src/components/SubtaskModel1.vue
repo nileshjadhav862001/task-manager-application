@@ -5,10 +5,12 @@
                 <div class="card-body">
                     <ul class="nav nav-tabs" role="tablist">
                         <li class="nav-item">
-                            <a class="nav-link" :class="{ active: activeTab === 'subtask' }" @click="activeTab = 'subtask'">Subtask</a>
+                            <a class="nav-link" :class="{ active: activeTab === 'subtask' }"
+                                @click="activeTab = 'subtask'">Subtask</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" :class="{ active: activeTab === 'info' }" @click="activeTab = 'info'">Info</a>
+                            <a class="nav-link" :class="{ active: activeTab === 'info' }"
+                                @click="activeTab = 'info'">Info</a>
                         </li>
                     </ul>
                     <div class="tab-content mt-3">
@@ -22,7 +24,6 @@
                                 <input type="checkbox" v-model="subtask.completed" @change="updateCompleteCount(subtask)">
                                 <span> &nbsp;{{ subtask.name }} &nbsp; </span>
                                 <i class="bi bi-trash-fill" style="cursor: pointer;" @click="popDeleteSubtask(subtask)"></i>
-
                             </div>
                         </div>
                         <div class="tab-pane" :class="{ active: activeTab === 'info' }">
@@ -35,7 +36,7 @@
         </div>
         <div v-if="deletepop" class="deletepop">
 
-            <div @click="deletepop1" class="pop">
+            <div class="pop">
                 <div class="warning">
                     <i class="bi bi-exclamation-triangle-fill"></i>
                 </div>
@@ -44,7 +45,6 @@
                 </div>
                 <div class="button">
                     <button @click="deleteSubtask" class="btn">YES</button>
-                    sele : {{ selectedTask }}
                 </div>
             </div>
         </div>
@@ -60,71 +60,51 @@ export default {
             type: Object,
             required: true,
         },
+        index: {
+            type: Number,
+            required: true
+        }
     },
     data() {
         return {
             selectedTask: null,
             newSubtask: '',
             activeTab: 'subtask',
-            localTask: {},
+            // localTask: {},
             deletepop: false,
             // count: 0,
         }
     },
 
-    // mounted() {
-    //     this.localTask = {
-    //         ...this.task
-    //     };
-
-    // },
-
     methods: {
         // methods
-        ...mapActions(useCounterStore, ['showAddTaskForm','updateCompleteCount','addSubtaskv1']),
+        ...mapActions(useCounterStore, ['showAddTaskForm', 'updateCompleteCount', 'addSubtaskv1', 'addSubtask', 'deleteSubtaskvV1']),
 
-        // addSubtask() {
-        //         const subtask = {
-        //             name: this.newSubtask,
-        //             completed: false,
-        //         };
-        //         this.localTask.subtasks.push(subtask);
-        //         this.newSubtask = '';
-
+        // handleAddSubtask() {
+        //     this.addSubtask(this.task, this.newSubtask)
+        //     this.newSubtask = ''
         // },
-        handleAddSubtask(){
-            this.addSubtaskv1(this.task, this.newSubtask)
-            this.newSubtask = ''
+
+        handleAddSubtask() {
+            this.addSubtaskv1(this.task.uniqueId, this.newSubtask);
+            this.newSubtask = '';
         },
+
         popDeleteSubtask(subtask) {
             this.selectedTask = subtask;
             this.deletepop = true;
         },
-        deletepop1() {
-            this.deletepop = false
-        },
+
         deleteSubtask() {
-            const index = this.localTask.subtasks.indexOf(this.selectedTask);
-            // if (index !== -1) {
-                this.localTask.subtasks.splice(index, 1);
-                this.selectedTask = null;
-            // }
+            this.deleteSubtaskvV1(this.task.uniqueId, this.selectedTask);
+            this.selectedTask = null;
+            this.deletepop = false;
         },
-        // updateCompleteCount(subtask) {
-        //     if (subtask.completed === true) {
-        //         this.count++;
-        //     } else {
-        //         this.count--;
-        //     }
-        //     this.$emit('update-complete-count', this.count)
-        // },
+
     },
     computed: {
         // computed + data 
-        ...mapState(useCounterStore, ['completedCount','deletepop']),
-
-
-
+        ...mapState(useCounterStore, ['completedCount', 'deletepop']),
     }
 
 }
@@ -184,4 +164,5 @@ input[type=text] {
     border-bottom: 1px solid #969494;
     border-radius: .2em .2em 0 0;
     padding: .4em;
-}</style>
+}
+</style>

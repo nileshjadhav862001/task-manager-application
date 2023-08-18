@@ -46,17 +46,17 @@ export const useCounterStore = defineStore('counter', {
         this.completedCount--;
       }
     },
-    popDeleteSubtask(subtask) {
-      this.selectedTask = subtask;
-      this.deletepop = true;
-    },
-    deleteSubtask() {
-      const index = this.tasksArray.subtasks.indexOf(this.selectedTask);
-      if (index !== -1) {
-        this.localTask.subtasks.splice(index, 1);
-        this.selectedTask = null;
-      }
-    },
+    // popDeleteSubtask(subtask) {
+    //   this.selectedTask = subtask;
+    //   this.deletepop = true;
+    // },
+    // deleteSubtask() {
+    //   const index = this.tasksArray.subtasks.indexOf(this.selectedTask);
+    //   if (index !== -1) {
+    //     this.localTask.subtasks.splice(index, 1);
+    //     this.selectedTask = null;
+    //   }
+    // },
     //--------------------------- AddTaskForm1 ----------------------------
     addTask() {
       const task = {
@@ -64,7 +64,7 @@ export const useCounterStore = defineStore('counter', {
         status: 'pending',
         subtasks: [],
         completedCount: 0,
-        id : Date.now()
+        uniqueId: Date.now()
       };
       this.tasksArray.push(task)
       this.hideAddTaskModal();
@@ -89,36 +89,23 @@ export const useCounterStore = defineStore('counter', {
     //   };
     //   task.subtasks.push(subtask);
     // },
-    addSubtaskv1(task, newSubtask) {
+    addSubtaskv1(uniqueId, newSubtask) {
+      const index = this.tasksArray.findIndex(task => task.uniqueId === uniqueId);
       const subtask = {
         name: newSubtask,
         completed: false,
       };
-      task.subtasks.push(subtask);
+      this.tasksArray[index].subtasks.push(subtask);
     },
-    // popDeleteSubtask(subtask) {
-    //   this.selectedTask = subtask;
-    //   this.deletepop = true;
-    // },
-    // deletepop1() {
-    //   this.deletepop = false
-    // },
-    // expand() {
-    //   this.expantion = !this.expantion
-    // },
+    deleteSubtaskvV1(uniqueId, selectedTask) {
+      const index = this.tasksArray.findIndex(task => task.uniqueId === uniqueId);
+      const index1 = this.tasksArray[index].subtasks.indexOf(selectedTask)
+      this.tasksArray[index].subtasks.splice(index1, 1);
+
+    },
     deleteAllTask() {
       this.tasksArray = []
     },
-    // AddSubTask(subtask) {
-    //   this.tasksArray.subtasks.push(subtask)
-    //   // localStorage.setItem('tasksArray', JSON.stringify(this.tasksArray));
-    // },
-    // handleUpdateCounter(count1) {
-    //   this.completedCount = Math.abs(count1);
-    // },
-    // increment() {
-    //   this.count++
-    // },
   },
   getters: {
     // computed Property
