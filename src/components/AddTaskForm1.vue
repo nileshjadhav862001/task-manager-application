@@ -2,6 +2,7 @@
 <template>
 <div>
     <div>
+        <form>
         <div v-if="showPopup = true" class="popup">
             <div class="popup-inner">
                 <h3>Add Task</h3>
@@ -50,6 +51,7 @@
                 <!-- </form> -->
             </div>
         </div>
+            </form>
     </div>
 </div>
 </template>
