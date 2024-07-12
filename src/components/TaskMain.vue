@@ -1,22 +1,25 @@
+<!-- Task main completed -->
 <template>
-<!-- 40 undo -->
-<div class="task-column">
-    <div class="container-fluid  bg-light" style="height: 100%;">
-        <div class="row">
-            <div class="d-flex">
-                <h5>{{ title }} <span style="color: #afafaf;">({{ tasks.length }})</span></h5>
-            </div>
-            <div class="task-list">
-                <div v-for="task in tasks" :key="task.id">
-                    <task-card :task="task" :subtask="subtasks" @add-sub-task="addSubtask(subtask)" @move-task-inprogress="moveTaskInProgress(task)" @move-task-done="moveTaskDone(task)"  />
+    <div class="task-column">
+        <div class="container-fluid  bg-light" style="height: 100%;">
+            <div class="row">
+                <div class="d-flex">
+                    <h5>{{ title }} <span style="color: #afafaf;">({{ tasks.length }})</span></h5>
+                </div>
+                <div class="task-list">
+                    <div v-for="(task, index) in tasks" :key="index">
+                        <task-card :task="task" :index="index"/>
+                        <!-- index : {{ index }} -->
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
 </template>
 
 <script>
+// import { mapActions } from 'pinia'
+// import { useCounterStore } from "../store/index.js";
 import TaskCard from "./TaskCard.vue";
 
 export default {
@@ -29,33 +32,29 @@ export default {
             type: Array,
             required: true,
         },
-        num: {
-            type: Number,
-            required: true
-        }
     },
     components: {
         TaskCard,
     },
     data() {
         return {
-            subtasks: [],
-            todoTasks: [],
-            inProgressTasks: [],
-            doneTasks: [],
+            // subtasks: [],
+            // todoTasks: [],
+            // inProgressTasks: [],
+            // doneTasks: [],
         };
     },
     methods: {
-
-        moveTaskInProgress(task) {
-            this.$emit('move-task-inprogress', task)
-        },
-        moveTaskDone(task) {
-            this.$emit('move-task-done', task)
-        },
-        addSubtask(subtask) {
-            this.$emit("add-sub-task", subtask)
-        }
+        // ...mapActions(useCounterStore,['moveTaskInProgress','moveTaskDone','addSubtask']),
+        // moveTaskInProgress(task) {
+        //     this.$emit('move-task-inprogress', task)
+        // },
+        // moveTaskDone(task) {
+        //     this.$emit('move-task-done', task)
+        // },
+        // addSubtask(subtask) {
+        //     this.$emit("add-sub-task", subtask)
+        // }
 
     },
 };
@@ -82,5 +81,4 @@ h5 {
 .task-list {
     margin-bottom: 10px;
 }
-
 </style>
